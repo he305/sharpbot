@@ -1,7 +1,7 @@
 ﻿namespace Common.Primitives;
 public abstract class Entity : IEquatable<Entity>   
 {
-    public Entity(Guid id)
+    protected Entity(Guid id)
     {
         Id = id;
     }
@@ -10,13 +10,7 @@ public abstract class Entity : IEquatable<Entity>
 
     public override bool Equals(object? obj)
     {
-        if (obj == null) return false;
-
-        if (obj.GetType() != GetType()) return false;
-
-        if (!(obj is Entity entity)) return false;
-
-        return entity.Id == Id;
+        return Equals(obj as Entity);
     }
 
     public static bool operator ==(Entity? first, Entity? second)
