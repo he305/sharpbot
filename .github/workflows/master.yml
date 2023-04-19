@@ -33,9 +33,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner begin /k:"he305_sharpbot" /o:"he305" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
-          dotnet build –no-incremental
-          dotnet dotcover test --dcReportType=HTML
+          dotnet-sonarscanner begin /k:"he305_sharpbot" /o:"he305" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet restore ./Sharpbot.sln
+          dotnet build ./Sharpbot.sln --configuration Release
+          dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
       - name: Bump version and push tag
