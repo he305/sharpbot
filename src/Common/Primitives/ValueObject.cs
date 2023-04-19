@@ -14,7 +14,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
 
     public override bool Equals(object? obj)
     {
-        return obj is ValueObject other && ValuesAreEqual(other);
+        return Equals(obj as ValueObject);
     }
 
     public override int GetHashCode()
